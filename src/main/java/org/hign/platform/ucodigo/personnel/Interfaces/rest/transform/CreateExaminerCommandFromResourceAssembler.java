@@ -1,6 +1,5 @@
 package org.hign.platform.ucodigo.personnel.Interfaces.rest.transform;
 
-import org.hign.platform.ucodigo.personnel.Domain.Model.Aggregate.Examiner;
 import org.hign.platform.ucodigo.personnel.Domain.Model.Command.CreateExaminerCommand;
 import org.hign.platform.ucodigo.personnel.Interfaces.rest.resources.CreateExaminerResource;
 
