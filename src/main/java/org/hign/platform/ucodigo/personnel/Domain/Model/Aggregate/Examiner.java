@@ -7,10 +7,14 @@ import org.hign.platform.ucodigo.personnel.Domain.Model.Command.CreateExaminerCo
 import org.hign.platform.ucodigo.personnel.Domain.Model.ValueObject.NationalProviderIdentifier;
 import org.hign.platform.ucodigo.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
+/**
+ * Represents an examiner in the system.
+ * The examiner is associated with a National Provider Identifier and includes personal information such as
+ * first name, last name, and the national provider identifier.
+ */
 @Getter
 @Entity
 public class Examiner extends AuditableAbstractAggregateRoot<Examiner> {
-
 
     private String firstName;
 
@@ -33,5 +37,4 @@ public class Examiner extends AuditableAbstractAggregateRoot<Examiner> {
         this.lastName = command.lastName();
         this.nationalProviderIdentifier = command.nationalProviderIdentifier();
     }
-
 }

@@ -13,9 +13,7 @@ public class NationalProviderIdentifier {
     @Column(name = "national_provider_identifier", nullable = false, unique = true)
     private String value;
 
-    protected NationalProviderIdentifier() {
-        // Required by JPA
-    }
+    protected NationalProviderIdentifier() {}
 
     private NationalProviderIdentifier(String value) {
         if (value == null || value.isEmpty()) {
@@ -23,7 +21,7 @@ public class NationalProviderIdentifier {
         }
 
         try {
-            UUID.fromString(value); // Validate if the string is a valid UUID
+            UUID.fromString(value);
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("NationalProviderIdentifier must be a valid UUID.", ex);
         }
