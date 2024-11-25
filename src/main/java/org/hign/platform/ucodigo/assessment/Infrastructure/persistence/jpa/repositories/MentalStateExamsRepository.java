@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MentalStateExamsRepository extends JpaRepository<MentalStateExams, Long> {
 
-    boolean existsByExaminerNationalProviderIdentifierAndPatientId(
-            NationalProviderIdentifier examinerNationalProviderIdentifier, Long patientId);
+    boolean existsByExaminerNationalProviderIdentifier(NationalProviderIdentifier examinerNationalProviderIdentifier);
+
 }
