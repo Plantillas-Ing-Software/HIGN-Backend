@@ -1,6 +1,7 @@
 package org.hign.platform.ucodigo.personnel.Application.Internal.commandservice;
 
 
+import org.hign.platform.ucodigo.personnel.Domain.Exceptions.NationalProviderIdentifierAlreadyExitsException;
 import org.hign.platform.ucodigo.personnel.Domain.Model.Aggregate.Examiner;
 import org.hign.platform.ucodigo.personnel.Domain.Model.Command.CreateExaminerCommand;
 import org.hign.platform.ucodigo.personnel.Domain.Services.ExaminerCommandService;
@@ -24,7 +25,7 @@ public class ExaminerCommandServiceImpl implements ExaminerCommandService {
     @Override
     public Optional<Examiner> handle(CreateExaminerCommand command) {
         if (examinerRepository.existsByNationalProviderIdentifier(command.nationalProviderIdentifier())){
-            throw new IllegalArgumentException("National provider already exists");
+            throw new NationalProviderIdentifierAlreadyExitsException("National provider already exists");
         }
         Examiner examiner = new Examiner(command);
         return Optional.of(examinerRepository.save(examiner));
