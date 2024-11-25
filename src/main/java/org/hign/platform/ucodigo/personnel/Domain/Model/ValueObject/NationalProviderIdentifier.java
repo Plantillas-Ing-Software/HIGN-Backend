@@ -11,17 +11,17 @@ import java.util.UUID;
 public class NationalProviderIdentifier {
 
     @Column(name = "national_provider_identifier", nullable = false, unique = true)
-    private String value;
+    private UUID value;
 
     protected NationalProviderIdentifier() {}
 
-    private NationalProviderIdentifier(String value) {
-        if (value == null || value.isEmpty()) {
+    private NationalProviderIdentifier(UUID value) {
+        if (value == null ) {
             throw new IllegalArgumentException("NationalProviderIdentifier must not be null or empty.");
         }
 
         try {
-            UUID.fromString(value);
+            UUID.fromString(String.valueOf(value));
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("NationalProviderIdentifier must be a valid UUID.", ex);
         }
@@ -29,7 +29,7 @@ public class NationalProviderIdentifier {
         this.value = value;
     }
 
-    public static NationalProviderIdentifier from(String value) {
+    public static NationalProviderIdentifier from(UUID value) {
         return new NationalProviderIdentifier(value);
     }
 
@@ -44,10 +44,5 @@ public class NationalProviderIdentifier {
     @Override
     public int hashCode() {
         return value.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return value;
     }
 }
