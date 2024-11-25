@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.hign.platform.ucodigo.personnel.Domain.Exceptions.NationalProviderIdentifierAlreadyExitsException;
 import org.hign.platform.ucodigo.personnel.Domain.Services.ExaminerCommandService;
 import org.hign.platform.ucodigo.personnel.Interfaces.rest.resources.CreateExaminerResource;
 import org.hign.platform.ucodigo.personnel.Interfaces.rest.resources.ExaminerResource;
@@ -42,6 +43,11 @@ public class ExaminerController {
 
         var examinerResource = ExaminerResourceFromEntityAssembler.toResourceFromEntity(examiner.get());
         return new ResponseEntity<>(examinerResource, HttpStatus.CREATED);
+    }
+
+    @ExceptionHandler(NationalProviderIdentifierAlreadyExitsException.class)
+    public ResponseEntity<String> handleNationalProviderIdentifierAlreadyExitsException(NationalProviderIdentifierAlreadyExitsException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
 
