@@ -1,5 +1,6 @@
 package org.hign.platform.ucodigo.assessment.Interfaces.rest;
 
+import org.hign.platform.ucodigo.assessment.Domain.Exceptions.NationalProviderIdentifierException;
 import org.hign.platform.ucodigo.assessment.Domain.Services.MentalStateExamsCommandService;
 import org.hign.platform.ucodigo.assessment.Interfaces.rest.resources.CreateMentalStateExamsResource;
 import org.hign.platform.ucodigo.assessment.Interfaces.rest.resources.MentalStateExamsResource;
@@ -41,6 +42,11 @@ public class MentalStateExamsController {
 
         var mentalExamsResource = MentalStateExamsResourceFromEntityAssembler.toResourceFromEntity(mentalStateExams.get());
         return new ResponseEntity<>(mentalExamsResource, HttpStatus.CREATED);
+    }
+
+    @ExceptionHandler(NationalProviderIdentifierException.class)
+    public ResponseEntity<String> handleNationalProviderIdentifierException(NationalProviderIdentifierException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
 
