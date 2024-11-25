@@ -11,11 +11,21 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * Implementation of the MentalStateExamsCommandService interface.
+ * This service handles commands related to mental state exams, such as creating new exams.
+ */
 @Service
 public class MentalStateExamCommandServiceImpl implements MentalStateExamsCommandService {
     private final MentalStateExamsRepository mentalStateExamsRepository;
     private final ExternalExaminerService externalExaminerService;
 
+    /**
+     * Constructor for MentalStateExamCommandServiceImpl.
+     *
+     * @param mentalStateExamsRepository the repository to interact with mental state exam data.
+     * @param externalExaminerService    the service to verify external examiners.
+     */
     public MentalStateExamCommandServiceImpl(
             MentalStateExamsRepository mentalStateExamsRepository,
             ExternalExaminerService externalExaminerService) {
@@ -23,6 +33,16 @@ public class MentalStateExamCommandServiceImpl implements MentalStateExamsComman
         this.externalExaminerService = externalExaminerService;
     }
 
+    /**
+     * Handles the creation of a new mental state exam.
+     *
+     * @param command the command containing details for creating the exam.
+     * @return an Optional containing the created MentalStateExams entity, or an empty Optional if the creation fails.
+     * @throws NationalProviderIdentifierException if:
+     * - The examiner with the provided National Provider Identifier (NPI) does not exist.
+     * - The exam date is in the future.
+     * - An exam already exists for the provided NPI.
+     */
     @Override
     public Optional<MentalStateExams> handle(CreateMentalStateExamCommand command) {
         if (!externalExaminerService.verifyExaminerExists(command.examinerNationalProviderIdentifier())) {

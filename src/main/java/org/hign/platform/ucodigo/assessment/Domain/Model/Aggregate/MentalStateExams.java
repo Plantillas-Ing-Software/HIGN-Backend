@@ -12,6 +12,12 @@ import org.hign.platform.ucodigo.shared.domain.model.aggregates.AuditableAbstrac
 
 import java.time.LocalDate;
 
+/**
+ * Entity representing a mental state exam.
+ * Captures details about a patient's mental state assessment, including scores for
+ * various cognitive domains such as orientation, registration, attention, recall, and language.
+ * Extends {@link AuditableAbstractAggregateRoot} to include audit fields.
+ */
 @Setter
 @Getter
 @Entity
@@ -21,9 +27,17 @@ public class MentalStateExams extends AuditableAbstractAggregateRoot<MentalState
     @Column(nullable = false)
     private Long patientId;
 
+    /**
+     * The National Provider Identifier (NPI) of the examiner conducting the exam.
+     * Stored as an embedded object.
+     */
     @Embedded
     private NationalProviderIdentifier examinerNationalProviderIdentifier;
 
+    /**
+     * The date the mental state exam was conducted.
+     * Must not be in the future.
+     */
     @PastOrPresent(message = "The examDate timestamp must not be in the future")
     @Column(nullable = false)
     private LocalDate examDate;
@@ -45,6 +59,14 @@ public class MentalStateExams extends AuditableAbstractAggregateRoot<MentalState
 
     protected MentalStateExams() {}
 
+    /**
+     * Constructs a new MentalStateExams entity using data from the given command.
+     *
+     * @param command the {@link CreateMentalStateExamCommand} containing the data for this exam.
+     * @throws IllegalArgumentException if:
+     *  - The exam date is in the future.
+     *  - Any of the scores are outside their valid range.
+     */
     public MentalStateExams(CreateMentalStateExamCommand command){
         this.patientId = command.patientId();
         this.examinerNationalProviderIdentifier = command.examinerNationalProviderIdentifier();
@@ -75,6 +97,13 @@ public class MentalStateExams extends AuditableAbstractAggregateRoot<MentalState
         }
     }
 
+    /**
+     * Validates if a score is within the range of 0 to the given maximum.
+     *
+     * @param value the score to validate.
+     * @param max   the maximum valid value for the score.
+     * @return true if the score is null, less than 0, or greater than max; false otherwise.
+     */
     private boolean isValidRange(Integer value, int max) {
         return value == null || value < 0 || value > max;
     }
